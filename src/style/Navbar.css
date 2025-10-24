@@ -1,0 +1,89 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  border-bottom: 2px solid rgba(228, 221, 222, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1728px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 72px 32px 72px;
+  height: 90px;
+  box-sizing: border-box;
+}
+
+.navbar-left .navbar-logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 96px;
+}
+
+.nav-link {
+  position: relative;
+  color: var(--white-color);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+  transition: opacity 0.3s ease;
+  padding-bottom: 5px;
+}
+
+.nav-link:hover {
+  opacity: 1;
+}
+
+.nav-link.active {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  color: var(--white-color);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.nav-icon:hover {
+  opacity: 1;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}

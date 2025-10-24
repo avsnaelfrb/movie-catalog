@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+:root {
+  font-family: "Geist", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.05rem;
+
+  --primary-color: hsla(355, 82%, 47%, 1);
+  --white-color: #ffffff;
+  --black-color: #121212;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--black-color); /* Latar belakang menggunakan warna hitam Anda */
+  color: var(--white-color);
+}
+
