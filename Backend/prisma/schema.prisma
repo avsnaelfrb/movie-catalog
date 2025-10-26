@@ -19,7 +19,7 @@ model Movie {
   title       String
   description String?
   genre       String
-  thumbnail   String?
+  thumbnail   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
