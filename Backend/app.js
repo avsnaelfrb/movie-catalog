@@ -14,8 +14,10 @@ const corsOp = {
 
 app.use(cors(corsOp));
 app.use(express.json());
+app.use(express.static('public'));
 
 app.use("/api", router);
+
 
 const port = process.env.PORT || 5000; // Ambil PORT dari .env atau default 5000
 
