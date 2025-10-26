@@ -3,6 +3,8 @@ import { getMovies, createMovie, getMovieById, updateMovie, deleteMovie } from "
 
 import { protect, adminOnly } from "../middleware/authMiddleware.js";
 
+import upload from "../config/multerConfig.js"; 
+
 const router = express.Router();
 
 // ==== RUTE PUBLIK ====
@@ -10,7 +12,7 @@ router.get("/", getMovies);
 router.get("/:id", getMovieById)
 
 //==== RUTE ADMIN ====
-router.post("/", protect, adminOnly, createMovie);
+router.post("/", protect, adminOnly, upload.single('coverImage'), createMovie);
 router.put("/:id", protect, adminOnly, updateMovie);
 router.delete("/:id", protect, adminOnly, deleteMovie);
 
