@@ -1,13 +1,14 @@
-require("dotenv").config();
+import 'dotenv/config';
 import express from "express";
 import cors from "cors";
-import router from "./src/routes/mainroute.js"
-const app = express();
-const port = 3000;
+import router from "./src/routes/mainroute.js";
 
+const app = express();
 
 const corsOp = {
-  origin: process.env.CORS_ALLOW_LIST.split(","),
+  origin: process.env.CORS_ALLOW_LIST
+    ? process.env.CORS_ALLOW_LIST.split(",")
+    : ["http://localhost:3000"],
   optionsSuccessStatus: 200,
 };
 
@@ -16,6 +17,8 @@ app.use(express.json());
 
 app.use("/api", router);
 
+const port = process.env.PORT || 5000; // Ambil PORT dari .env atau default 5000
+
 app.listen(port, () => {
-  console.log(`server berjalan di http://localhost:${port}`);
+  console.log(`🚀 Server berjalan di http://localhost:${port}`);
 });

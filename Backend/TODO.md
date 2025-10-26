@@ -1,0 +1,5 @@
+- [x] Edit Backend/src/routes/mainroute.js: Change import { userRoutes } to import userRoutes from "./userRoutes.js"
+- [x] Edit Backend/src/controllers/UserController.js: Change exports.createUser to export const createUser
+- [x] Edit Backend/src/config/prismaClient.js: Change import from "@prisma/client" to "../generated/prisma"
+- [x] Run npx prisma generate in Backend directory
+- [x] Run npm start in Backend to test the server
