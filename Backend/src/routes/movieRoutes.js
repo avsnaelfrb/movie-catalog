@@ -12,8 +12,14 @@ router.get("/", getMovies);
 router.get("/:id", getMovieById)
 
 //==== RUTE ADMIN ====
-router.post("/", protect, adminOnly, upload.single('coverImage'), createMovie);
-router.put("/:id", protect, adminOnly, updateMovie);
+router.post("/", protect, adminOnly, upload.single('thumbnail'), createMovie);
+router.put(
+  "/:id",
+  protect,
+  adminOnly,
+  upload.single("thumbnail"),
+  updateMovie
+);
 router.delete("/:id", protect, adminOnly, deleteMovie);
 
 export default router;

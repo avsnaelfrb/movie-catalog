@@ -6,10 +6,8 @@ import router from "./src/routes/mainroute.js";
 const app = express();
 
 const corsOp = {
-  origin: process.env.CORS_ALLOW_LIST
-    ? process.env.CORS_ALLOW_LIST.split(",")
-    : ["http://localhost:3000"],
-  optionsSuccessStatus: 200,
+  origin: process.env.CORS_ALLOW_LIST.split(","),
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOp));
