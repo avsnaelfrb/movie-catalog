@@ -25,6 +25,16 @@ export const getMovies = async (req, res) => {
 export const createMovie = async (req, res) => {
   const { title, description, genre } = req.body;
 
+  if (!req.file) {
+    return res
+      .status(400)
+      .json({ message: "File cover (thumbnail) tidak boleh kosong" });
+  }
+
+  const thumbnailUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/uploads/thumbnails/${req.file.filename}`;
+
   if (!title) {
     return res.status(400).json({ message: "Title tidak boleh kosong" });
   }
@@ -35,12 +45,14 @@ export const createMovie = async (req, res) => {
         title,
         description,
         genre,
+        thumbnail: thumbnailUrl
       },
     });
     res
       .status(201)
       .json({ message: "Film berhasil ditambahkan", data: newMovie });
   } catch (error) {
+    console.error("Error creating movie:", error);
     res
       .status(500)
       .json({ message: "Gagal membuat film", error: error.message });
