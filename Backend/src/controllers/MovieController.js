@@ -94,17 +94,38 @@ export const getMovieById = async (req, res) => {
  * @access  Private (Admin)
  */
 export const updateMovie = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, genre, thumbnail } = req.body;
   try {
-    const { id } = req.params;
-    const { title, description, genre, thumbnail } = req.body;
+    const dataToUpdate = {};
+
+    if (title){
+      dataToUpdate.title = title;
+    }
+
+    if (description){
+      dataToUpdate.description = description;
+    }
+
+    if (genre){
+      dataToUpdate.genre = genre;
+    }
+
+    if(req.file){
+      const thumbnailUrl = `${req.protocol}://${req.get(
+        "host"
+      )}/uploads/thumbnails/${req.file.filename}`;
+      dataToUpdate.thumbnail = thumbnailUrl;
+    }
+
+    if (Object.keys(dataToUpdate).length === 0) {
+      return res.status(400).json({ message: "Tidak ada data untuk diupdate" });
+    }
 
     const updatedMovie = await prisma.movie.update({
       where: { id: parseInt(id) },
       data: {
-        title,
-        description,
-        genre,
-        thumbnail,
+        dataToUpdate
       },
     });
 
