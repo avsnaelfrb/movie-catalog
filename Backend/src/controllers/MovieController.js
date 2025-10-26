@@ -124,9 +124,7 @@ export const updateMovie = async (req, res) => {
 
     const updatedMovie = await prisma.movie.update({
       where: { id: parseInt(id) },
-      data: {
-        dataToUpdate
-      },
+      data: dataToUpdate
     });
 
     res
