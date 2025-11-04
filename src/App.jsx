@@ -1,15 +1,9 @@
 import "./App.css";
-import Header from "./components/Header";
-import Kategori from "./components/kategori";
-import Navbar from "./components/Navbar";
+import { MainRoute } from "./route/mainRoute";
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <Header />
-      <Kategori />
-    </div>
+    <MainRoute/>
   );
 }
 
