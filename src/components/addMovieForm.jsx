@@ -5,50 +5,51 @@ import axiosInstance from "../api/axiosConfig";
 const AddMovieForm = () => {
   // State untuk menampung data dari form
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    genre: "",
-  });
-  const [fileUpload, setFileUpload] = useState(0)
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const [fileUpload, setFileUpload] = useState(null);
+  const [title, setTitle] = useState("");
+  const [genre, setGenre] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleFileChange = (e) => {
-    setFileUpload(e.target.files[0])
-  }
+    setFileUpload(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("title", title)
+    formData.append("thumbnail", fileUpload);
+    formData.append("description", description)
+    formData.append("genre", genre)
+
+
+    console.log(formData.get('title'))
+    console.log(formData.get('thumbnail'))
+    console.log(formData.get('description'))
+    console.log(formData.get('genre'))
+
     try {
-      const addMovie = await axiosInstance.post("/movies", {
-        title,
-        description,
-        genre,
-        thumbnail
-      });
+      const addMovie = await axiosInstance.post(
+        "/movies",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log("Data yang akan dikirim:", addMovie.data);
-
     } catch (error) {
       setError(error.addMovie?.data?.message || "Gagal menambahkan movie");
     }
 
     // Opsional: Reset form setelah submit
-    setFormData({
-      title: "",
-      description: "",
-      genre: "",
-    });
-
-    setFileUpload(0)
+    setDescription("");
+    setGenre("");
+    setTitle("")
+    setFileUpload(null);
   };
 
   // Helper untuk styling input yang konsisten
@@ -73,9 +74,9 @@ const AddMovieForm = () => {
             type="text"
             id="title"
             name="title"
-            value={formData.title}
-            onChange={handleChange}
+            value={title}
             className={inputStyle}
+            onChange={(e) => {setTitle(e.target.value)}}
             required
           />
         </div>
@@ -92,8 +93,7 @@ const AddMovieForm = () => {
             type="text"
             id="genre"
             name="genre"
-            value={formData.genre}
-            onChange={handleChange}
+            onChange={(e) => {setGenre(e.target.value)}}
             className={inputStyle}
             required
           />
@@ -111,7 +111,6 @@ const AddMovieForm = () => {
             type="file"
             id="thumbnail"
             name="thumbnail"
-            value={fileUpload}
             onChange={handleFileChange}
             className={inputStyle}
             placeholder=""
@@ -131,8 +130,7 @@ const AddMovieForm = () => {
             id="description"
             name="description"
             rows="4"
-            value={formData.description}
-            onChange={handleChange}
+            onChange={(e) => {setDescription(e.target.value)}}
             className={inputStyle}
             placeholder="A brief synopsis of the movie..."
           />
