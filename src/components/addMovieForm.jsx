@@ -46,9 +46,9 @@ const AddMovieForm = () => {
     }
 
     // Opsional: Reset form setelah submit
-    setDescription("");
-    setGenre("");
-    setTitle("")
+    setDescription(" ");
+    setGenre(" ");
+    setTitle(" ");
     setFileUpload(null);
   };
 
