@@ -9,9 +9,8 @@ const AddMovieForm = () => {
     title: "",
     description: "",
     genre: "",
-    thumbnail: "",
   });
-
+  const [fileUpload, setFileUpload] = useState(0)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +19,10 @@ const AddMovieForm = () => {
       [name]: value,
     }));
   };
+
+  const handleFileChange = (e) => {
+    setFileUpload(e.target.files[0])
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,8 +46,9 @@ const AddMovieForm = () => {
       title: "",
       description: "",
       genre: "",
-      thumbnail: "",
     });
+
+    setFileUpload(0)
   };
 
   // Helper untuk styling input yang konsisten
@@ -107,10 +111,10 @@ const AddMovieForm = () => {
             type="file"
             id="thumbnail"
             name="thumbnail"
-            value={formData.thumbnail}
-            onChange={handleChange}
+            value={fileUpload}
+            onChange={handleFileChange}
             className={inputStyle}
-            placeholder="https://example.com/image.png"
+            placeholder=""
             required
           />
         </div>
