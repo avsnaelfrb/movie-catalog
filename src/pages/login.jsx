@@ -21,9 +21,16 @@ function Login() {
         password,
       });
 
-      localStorage.setItem("authToken", response.data.token);
+      console.log("DATA DARI BACKEND:", response.data.data.role);
 
-      navigate("/");
+      localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      if (response.data.data.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }p
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {

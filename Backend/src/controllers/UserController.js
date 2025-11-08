@@ -1,60 +1,65 @@
 import prisma from "../config/prismaClient.js";
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     });
 
-    if (!user){
-      return res.status(404).json({ message: "User tidak ditemukan" })
+    if (!user) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordMatch){
-      return res.status(401).json({ message: "Password salah" })
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Password salah" });
     }
 
     const token = jwt.sign(
       {
         id: user.id,
-        role: user.role
+        role: user.role,
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: "1h" }
     );
 
     res.status(200).json({
-      message : "Login berhasil",
-      token
+      message: "Login berhasil",
+      data: {
+        id: user.id,
+        name: user.name,
+        email,
+        role : user.role,
+      },
+      token,
     });
-  } catch (err){
-    res.status(500).json({ 
+  } catch (err) {
+    res.status(500).json({
       message: "server error",
-      error: err.message
-     })
+      error: err.message,
+    });
   }
-}
+};
 
 /**
- * @desc    Registrasi user baru 
+ * @desc    Registrasi user baru
  * @route   GET /api/user
  * @access  Publik
  */
 export const createUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await prisma.user.create({
-      data: { name, email, password : hashedPassword }
+      data: { name, email, password: hashedPassword },
     });
     res.status(201).json({
       data: { id: newUser.id, name: newUser.name, email: newUser.email },
@@ -71,7 +76,6 @@ export const createUser = async (req, res) => {
   return;
 };
 
-
 /**
  * @desc    Mengambil semua user (Hanya Admin)
  * @route   GET /api/users
@@ -86,7 +90,7 @@ export const getUsers = async (req, res) => {
         name: true,
         email: true,
         role: true,
-      }
+      },
     });
     res.status(200).json(users);
   } catch (err) {
@@ -108,8 +112,8 @@ export const getUserById = async (req, res) => {
         id: true,
         name: true,
         email: true,
-        role: true
-      }
+        role: true,
+      },
     });
 
     if (!user) {
@@ -142,18 +146,20 @@ export const updateUser = async (req, res) => {
     const updatedUser = await prisma.user.update({
       where: { id: parseInt(id) },
       data: dataToUpdate,
-      select: { // Kirim balik data yang sudah diupdate (tanpa password)
+      select: {
+        // Kirim balik data yang sudah diupdate (tanpa password)
         id: true,
         name: true,
         email: true,
-        role: true
-      }
+        role: true,
+      },
     });
 
-    res.status(200).json({ message: "User berhasil diupdate", data: updatedUser });
-
+    res
+      .status(200)
+      .json({ message: "User berhasil diupdate", data: updatedUser });
   } catch (err) {
-    if (err.code === 'P2025') {
+    if (err.code === "P2025") {
       return res.status(404).json({ message: "User not found" });
     }
     res.status(500).json({ message: "Server error", error: err.message });
@@ -170,11 +176,11 @@ export const deleteUser = async (req, res) => {
 
   try {
     await prisma.user.delete({
-      where: { id: parseInt(id) }
+      where: { id: parseInt(id) },
     });
     res.status(200).json({ message: "User berhasil dihapus" });
   } catch (err) {
-    if (err.code === 'P2025') {
+    if (err.code === "P2025") {
       return res.status(404).json({ message: "User not found" });
     }
     res.status(500).json({ message: "Server error", error: err.message });

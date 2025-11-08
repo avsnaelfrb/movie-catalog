@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  height: 600px;
+  height: 900px;
   padding: 110px 72px;
   flex-direction: column;
   justify-content: center;
@@ -62,7 +62,7 @@
 
 .btn-watch {
   display: flex;
-  width: 11.5625rem;
+  width: 14rem;
   padding: 1rem 2.5rem 1rem 2rem;
   justify-content: center;
   align-items: center;
